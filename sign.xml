@@ -1,18 +1,16 @@
 <?xml version="1.0"?>
 <project name="Code signing example ANT script" default="[sign]_app">
 
-  <property name="deploy.dir" value="${basedir}/../01_dev/deploy" />
-  <property name="mac.app" value="${deploy.dir}/my-application.app" />
+  <!-- Path to the application to be signed -->
+  <property name="mac.app" value="${basedir}/../01_dev/deploy/my-application.app" />
 
   <!-- Replace with your developer ID as in respect to certificate -->
   <property name="developerId" value="Interactive Pioneers GmbH (ASPD457210)" />
 
-  <!-- Detect Mac OS -->
   <condition property="is_mac">
     <os family="mac"/>
   </condition>
 
-  <!-- Sign application container -->
   <target name="[sign]_app" description="Code-sign the Mac application" if="is_mac">
     <echo level="info">Code-signing the application</echo>
     <codesign target="${mac.app}/Contents/Frameworks/Adobe AIR.framework" />
@@ -20,7 +18,6 @@
     <antcall target="[sign]_verify" />
   </target>
 
-  <!-- Verify if signature is correct -->
   <target name="[sign]_verify" description="Verify signed Mac application">
     <echo level="info">Verifying signed application</echo>
     <exec executable="codesign">
